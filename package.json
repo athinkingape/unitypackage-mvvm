@@ -1,0 +1,17 @@
+{
+  "name": "mvvmplayground",
+  "version": "0.0.1",
+  "displayName": "MVVM Playground",
+  "description": "My take on MVVM heavily expired by Microsoft's document and stuff that I saw on the project I worked.",
+  "unity": "2019.1",
+  "unityRelease": "0b5",
+ "keywords": [
+    "mvvm",
+    "c#"
+  ],
+  "author": {
+    "name": "Tymur Koshel",
+    "email": "timurkoshel@gmail.com",
+    "url": "https://github.com/thenitro"
+  }
+}
