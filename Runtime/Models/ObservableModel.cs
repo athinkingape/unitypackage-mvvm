@@ -1,7 +1,7 @@
 namespace MVVM.Models
 {
     public class ObservableModel<T> : BaseObservable<T>, IObservableValue<T>
-        where T : BaseObservable<T>
+        where T : IObservable<T>
     {
         public T Value { get; private set; }
 
