@@ -16,14 +16,10 @@ namespace MVVM.Models
             {
                 return;
             }
-
-            if (Value != null)
-            {
-                Value.RemoveObservation(OnValueUpdated);
-            }
             
+            Value?.RemoveObservation(OnValueUpdated);
             Value = value;
-            Value.Observe(OnValueUpdated);
+            Value?.Observe(OnValueUpdated);
             
             NotifyObservers(value);
         }
