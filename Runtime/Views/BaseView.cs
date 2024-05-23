@@ -20,20 +20,28 @@ namespace MVVM.Views
 
         protected abstract void OnSetup(TViewModel viewModel);
 
+        protected virtual void OnEnableImpl() { }
+
+        protected virtual void OnDisableImpl() { }
+        protected virtual void OnDestroyImpl() { }
+
         private void OnEnable()
         {
             _bindings.ForEach(b => b.OnEnable());
             ViewModel?.OnEnable();
+            OnEnableImpl();
         }
 
         private void OnDisable()
         {
+            OnDisableImpl();
             _bindings.ForEach(b => b.OnDisable());
             ViewModel?.OnDisable();
         }
 
         private void OnDestroy()
         {
+            OnDestroyImpl();
             _bindings.ForEach(b => b.OnDestroy());
             ViewModel?.OnDestroy();
         }
