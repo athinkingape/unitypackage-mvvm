@@ -37,8 +37,7 @@ namespace MVVM.Models
 
         public void Remove(TKey key)
         {
-            var changed = !_dict.ContainsKey(key);
-            if (!changed)
+            if (!_dict.ContainsKey(key))
             {
                 return;
             }
@@ -67,6 +66,7 @@ namespace MVVM.Models
             if (!_observers.TryGetValue(key, out HashSet<Action<TKey, TValue>> observers))
             {
                 observers = new HashSet<Action<TKey, TValue>>();
+                _observers[key] = observers;
             }
 
             observers.Add(onValueChanged);
