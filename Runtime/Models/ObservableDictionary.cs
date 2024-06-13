@@ -5,6 +5,9 @@ namespace MVVM.Models
 {
     public class ObservableDictionary<TKey, TValue> : BaseObservable<ObservableDictionary<TKey, TValue>>
     {
+        public IEnumerable<TKey> Keys => _dict.Keys;
+        public IEnumerable<TValue> Values => _dict.Values;
+        
         private Dictionary<TKey, TValue> _dict = new();
         private Dictionary<TKey, HashSet<Action<TKey, TValue>>> _observers = new();
 
