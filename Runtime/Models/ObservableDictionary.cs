@@ -7,12 +7,14 @@ namespace MVVM.Models
     public class ObservableDictionary<TKey, TValue> : BaseObservable<ObservableDictionary<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>
     {
         public IEnumerable<TKey> Keys => _dict.Keys;
-        public IEnumerable<TValue> Values => _dict.Values;
+        public IObservableValue<IEnumerable<TValue>> Values => _values;
         public int Count => _dict.Count;
         
         private Dictionary<TKey, TValue> _dict = new();
         private Dictionary<TKey, HashSet<Action<TKey, TValue>>> _observers = new();
 
+        private readonly ObservableValue<IEnumerable<TValue>> _values = new();
+        
         public void Add(TKey key, TValue value)
         {
             var changed = !_dict.ContainsKey(key) || !_dict[key].Equals(value);
@@ -22,6 +24,7 @@ namespace MVVM.Models
             }
 
             _dict[key] = value;
+            _values.Setup(_dict.Values);
             NotifyObservers(key, value);
         }
 
@@ -31,6 +34,7 @@ namespace MVVM.Models
             set
             {
                 _dict[key] = value;
+                _values.Setup(_dict.Values);
                 NotifyObservers(key, value);
             }
         }
@@ -43,6 +47,7 @@ namespace MVVM.Models
             }
 
             _dict.Remove(key);
+            _values.Setup(_dict.Values);
 
             if (_observers.ContainsKey(key))
             {
