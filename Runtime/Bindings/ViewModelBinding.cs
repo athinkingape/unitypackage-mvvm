@@ -22,7 +22,10 @@ namespace MVVM.Bindings.Base
 
         protected override void OnUpdate(TViewModel value)
         {
-            _view.Setup(value);
+            if (_view.ViewModel != value)
+            {
+                _view.Setup(value);
+            }
         }
     }
 }
