@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MVVM.Models
 {
     public abstract class BaseObservable<T> : IObservable<T>
     {
         private HashSet<Action<T>> _callbacks = new();
-        private HashSet<Action<T>> _callbacksToRemove = new();
-
-        private bool _isRunning;
 
         public void Observe(Action<T> OnUpdate)
         {
@@ -22,12 +20,6 @@ namespace MVVM.Models
 
         public void RemoveObservation(Action<T> OnUpdate)
         {
-            if (_isRunning)
-            {
-                _callbacksToRemove.Add(OnUpdate);
-                return;
-            }
-            
             if (!_callbacks.Contains(OnUpdate))
             {
                 return;
@@ -38,21 +30,17 @@ namespace MVVM.Models
 
         protected void NotifyObservers(T instance)
         {
-            _isRunning = true;
-            
-            foreach (var callback in _callbacks)
+            /*
+             * TODO: copying array here is not cool
+             * and there is few things that needed to be considered:
+             * 1. adding/removing callback while iterating
+             * 2. several NotifyObservers call during iteration
+             * 3. growing call stack if chain of observers is long 
+             */
+            foreach (var callback in _callbacks.ToArray())
             {
                 callback.Invoke(instance);
             }
-
-            _isRunning = false;
-
-            foreach (var action in _callbacksToRemove)
-            {
-                RemoveObservation(action);
-            }
-            
-            _callbacksToRemove.Clear();
         }
     }
 }
