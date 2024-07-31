@@ -2,14 +2,15 @@ using System;
 using System.Collections.Generic;
 using MVVM.Bindings.Base;
 using MVVM.Models;
+using UnityEngine;
 
-namespace MVVM.ViewModels
+namespace Controllers
 {
-    public abstract class BaseViewModel
+    public class BaseEntityController : MonoBehaviour
     {
         private readonly List<IDestroyableBinding> _bindingsToDestroy = new();
         
-        protected void Observe<T>(Models.IObservable<T> observable, Action<T> onUpdate)
+        protected void Observe<T>(MVVM.Models.IObservable<T> observable, Action<T> onUpdate)
         {
             _bindingsToDestroy.Add(new ObservableBinding<T>(observable, onUpdate));
         }
@@ -57,28 +58,8 @@ namespace MVVM.ViewModels
             }
         }
 
-        /*
-         * DEPRECATED
-         */
-        protected void RemoveObservation<T>(Models.IObservable<T> model, Action<T> onUpdate)
-        {
-            model.RemoveObservation(onUpdate);
-        }
-        
-        protected virtual void OnEnableImplementation() { }
-        protected virtual void OnDisableImplementation() { }
         protected virtual void OnDestroyImplementation() { }
-
-        internal void OnEnable()
-        {
-            OnEnableImplementation();
-        }
-
-        internal void OnDisable()
-        {
-            OnDisableImplementation();
-        }
-
+        
         internal void OnDestroy()
         {
             foreach (var destroyableBinding in _bindingsToDestroy)
