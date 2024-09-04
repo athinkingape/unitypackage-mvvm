@@ -20,6 +20,7 @@ namespace MVVM.Bindings.Base
 
         public void OnEnable()
         {
+            OnEnableImpl();
             _observableValue?.Observe(OnUpdate);
             OnUpdate(_observableValue == null ? _value : _observableValue.Value);
         }
@@ -27,13 +28,19 @@ namespace MVVM.Bindings.Base
         public void OnDisable()
         {
             _observableValue?.RemoveObservation(OnUpdate);
+            OnDisableImpl();
         }
 
         public void OnDestroy()
         {
             _observableValue?.RemoveObservation(OnUpdate);
+            OnDestroyImpl();
         }
 
         protected abstract void OnUpdate(T value);
+        
+        protected virtual void OnEnableImpl() { }
+        protected virtual void OnDisableImpl() { }
+        protected virtual void OnDestroyImpl() { }
     }
 }
