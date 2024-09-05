@@ -1,32 +1,26 @@
+using System.Collections.Generic;
+using MVVM.Bindings.Base;
+
 namespace MVVM.Models
 {
-    public class ObservableModel<T> : BaseObservable<T>, IObservableValue<T>
-        where T : IObservable<T>
+    public class ObservableModel<T> : BaseObservable<T> 
+        where T : class
     {
-        public T Value { get; private set; }
-
-        public ObservableModel(T value)
+        private readonly List<IDestroyableBinding> _bindings = new();
+        
+        protected void Register<V>(IObservable<V> observable)
         {
-            Setup(value);
+            _bindings.Add(new ObservableBinding<V>(observable, v => NotifyObservers(this as T)));
         }
 
-        public void Setup(T value)
+        public void Destroy()
         {
-            if (Value != null && Value.Equals(value))
+            foreach (var binding in _bindings)
             {
-                return;
+                binding.OnDestroy();
             }
             
-            Value?.RemoveObservation(OnValueUpdated);
-            Value = value;
-            Value?.Observe(OnValueUpdated);
-            
-            NotifyObservers(value);
-        }
-
-        private void OnValueUpdated(T obj)
-        {
-            NotifyObservers(obj);
+            _bindings.Clear();
         }
     }
 }
