@@ -14,6 +14,12 @@ namespace MVVM.Views
 
         public void Setup(TViewModel viewModel)
         {
+            if (ViewModel != null)
+            {
+                DestroyViewModel();
+                ViewModel = null;
+            } 
+            
             ViewModel = viewModel;
             OnSetup(viewModel);
         }
@@ -42,7 +48,13 @@ namespace MVVM.Views
         private void OnDestroy()
         {
             OnDestroyImpl();
+            DestroyViewModel();
+        }
+
+        private void DestroyViewModel()
+        {
             _bindings.ForEach(b => b.OnDestroy());
+            _bindings.Clear();
             ViewModel?.OnDestroy();
         }
 
