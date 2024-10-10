@@ -9,9 +9,13 @@ namespace MVVM.ViewModels
     {
         private readonly List<IDestroyableBinding> _bindingsToDestroy = new();
         
-        protected void Observe<T>(Models.IObservable<T> observable, Action<T> onUpdate)
+        protected void Observe<T>(Models.IObservable<T> observable, Action<T> onUpdate, bool updateImmediately = false)
         {
             _bindingsToDestroy.Add(new ObservableBinding<T>(observable, onUpdate));
+            
+            if (updateImmediately) {
+                onUpdate?.Invoke((T)observable);
+            }
         }
         
         protected void Observe<T>(IObservableValue<T> observable, Action<T> onUpdate, bool updateImmediately = false)
