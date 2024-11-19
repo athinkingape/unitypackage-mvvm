@@ -8,8 +8,12 @@ namespace MVVM.ViewModels
     public abstract class BaseViewModel
     {
         private readonly List<IDestroyableBinding> _bindingsToDestroy = new();
+
+        protected void Observe<T>(Models.IObservable<T> observable, Action<T> onNotify) {
+            _bindingsToDestroy.Add(new ObservableBinding<T>(observable, onNotify));
+        }
         
-        protected void Observe<T>(Models.IObservable<T> observable, Action<T> onUpdate, bool updateImmediately = false)
+        protected void Observe<T>(Models.IObservable<T> observable, Action<T> onUpdate, bool updateImmediately)
         {
             _bindingsToDestroy.Add(new ObservableBinding<T>(observable, onUpdate));
             
