@@ -15,7 +15,7 @@ namespace MVVM.Bindings.Base
             _view = view;
         }
 
-        public ViewModelBinding(TView view, TViewModel value) : base(value)
+        public ViewModelBinding(TViewModel value, TView view) : base(value)
         {
             _view = view;
         }
