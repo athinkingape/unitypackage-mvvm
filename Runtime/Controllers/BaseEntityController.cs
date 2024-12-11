@@ -65,18 +65,21 @@ namespace Controllers
                 Notify();
             }
         }
-
-        protected virtual void OnDestroyImplementation() { }
         
-        protected void OnDestroy()
-        {
+        protected virtual void OnDestroyImplementation() { }
+
+        protected void CleanupBindings() {
             foreach (var destroyableBinding in _bindingsToDestroy)
             {
                 destroyableBinding.OnDestroy();
             }
             
             _bindingsToDestroy.Clear();
-            
+        }
+        
+        protected void OnDestroy()
+        {
+            CleanupBindings();
             OnDestroyImplementation();
         }
     }
