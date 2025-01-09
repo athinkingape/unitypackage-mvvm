@@ -10,8 +10,12 @@ namespace Controllers
     {
         private readonly List<IDestroyableBinding> _bindingsToDestroy = new();
         
-        protected void Observe<T>(Signal<T> observable, Action<T> onNotify) {
-            _bindingsToDestroy.Add(new ObservableBinding<T>(observable, onNotify));
+        protected void Observe(IObservable observable, Action onNotify, bool updateImmediately = false) {
+            _bindingsToDestroy.Add(new ObservableBinding(observable, onNotify));
+
+            if (updateImmediately) {
+                onNotify?.Invoke();
+            }
         }
         
         protected void Observe<T>(MVVM.Models.IObservable<T> observable, Action<T> onUpdate, bool updateImmediately = false)
