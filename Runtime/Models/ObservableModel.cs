@@ -4,7 +4,11 @@ using MVVM.Bindings.Base;
 
 namespace MVVM.Models
 {
-    public class ObservableModel<T> : BaseObservable<T> 
+    public interface IDestructibleModel {
+        public void OnDestroy();
+    }
+    
+    public class ObservableModel<T> : BaseObservable<T>, IDestructibleModel
         where T : class
     {
         private readonly List<IDestroyableBinding> _bindingsToDestroy = new();
@@ -80,8 +84,9 @@ namespace MVVM.Models
             {
                 binding.OnDestroy();
             }
-            
             _bindingsToDestroy.Clear();
+            
+            ClearObservers();
             OnDestroyImplementation();
         }
         

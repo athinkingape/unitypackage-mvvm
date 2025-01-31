@@ -49,6 +49,10 @@ namespace MVVM.Models
                 }
             }
         }
+
+        protected void ClearObservers() {
+            _callbacks.Clear();
+        }
     }
     
     public abstract class BaseObservable<T> : IObservable<T>
@@ -95,6 +99,10 @@ namespace MVVM.Models
                     callback.Invoke(instance);
                 }
             }
+        }
+        
+        protected void ClearObservers() {
+            _callbacks.Clear();
         }
     }
 }
