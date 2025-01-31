@@ -6,7 +6,7 @@ using UnityEngine;
 namespace MVVM.Views
 {
     public abstract class BaseView<TViewModel> : MonoBehaviour 
-        where TViewModel : BaseViewModel
+        where TViewModel : BaseViewModel<TViewModel>
     {
         public TViewModel ViewModel { get; private set; }
 
