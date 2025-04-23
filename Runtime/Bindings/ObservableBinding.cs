@@ -2,7 +2,7 @@ using System;
 
 namespace MVVM.Bindings.Base
 {
-    internal class ObservableBinding : IDestroyableBinding
+    public class ObservableBinding : IDestroyableBinding
     {
         private readonly Models.IObservable _observable;
         private readonly Action _onUpdate;
@@ -21,7 +21,7 @@ namespace MVVM.Bindings.Base
         }
     }
     
-    internal class ObservableBinding<T> : IDestroyableBinding
+    public class ObservableBinding<T> : IDestroyableBinding
     {
         private readonly Models.IObservable<T> _observable;
         private readonly Action<T> _onUpdate;
