@@ -9,7 +9,7 @@ namespace MVVM.Models
     {
         public IEnumerable<TKey> Keys => _dict.Keys;
         public IObservableValue<IEnumerable<TValue>> Values => _values;
-        public new int Count => _dict.Count;
+        public int Count => _dict.Count;
         
         private Dictionary<TKey, TValue> _dict = new();
         private Dictionary<TKey, HashSet<Action<TKey, TValue>>> _observers = new();

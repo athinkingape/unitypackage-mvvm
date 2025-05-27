@@ -8,7 +8,7 @@ namespace MVVM.Models
     {
         private HashSet<Action> _callbacks = new();
         
-        public int Count => _callbacks.Count; 
+        public int CallbackCount => _callbacks.Count; 
 
         public void Observe(Action OnUpdate)
         {
@@ -59,7 +59,7 @@ namespace MVVM.Models
     {
         private HashSet<Action<T>> _callbacks = new();
         
-        public int Count => _callbacks.Count; 
+        public int CallbackCount => _callbacks.Count; 
 
         public void Observe(Action<T> OnUpdate)
         {
