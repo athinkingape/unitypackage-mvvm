@@ -31,21 +31,21 @@ namespace MVVM.Views
         protected virtual void OnDisableImpl() { }
         protected virtual void OnDestroyImpl() { }
 
-        private void OnEnable()
+        protected void OnEnable()
         {
             _bindings.ForEach(b => b.OnEnable());
             ViewModel?.OnEnable();
             OnEnableImpl();
         }
 
-        private void OnDisable()
+        protected void OnDisable()
         {
             OnDisableImpl();
             _bindings.ForEach(b => b.OnDisable());
             ViewModel?.OnDisable();
         }
 
-        private void OnDestroy()
+        protected void OnDestroy()
         {
             OnDestroyImpl();
             DestroyViewModel();
