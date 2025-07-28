@@ -23,5 +23,9 @@ namespace MVVM.Models
         public void ForceNotify() {
             NotifyObservers(Value);
         }
+
+        public override string ToString() {
+            return $"[ObservableValue: {Value}]";
+        }
     }
 }
