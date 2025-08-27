@@ -61,7 +61,12 @@ namespace MVVM.Views
         protected void Bind(ILifecycleBinding valueBinding)
         {
             _bindings.Add(valueBinding);
-            valueBinding.OnEnable();
+            
+            if (isActiveAndEnabled) {
+                valueBinding.OnEnable();
+            } else {
+                valueBinding.OnDisable();
+            }
         }
     }
 }
