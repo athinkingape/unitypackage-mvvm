@@ -14,12 +14,14 @@ namespace MVVM.Views
 
         public void Setup(TViewModel viewModel)
         {
+            if (ViewModel == viewModel) return;
+
             if (ViewModel != null)
             {
                 DestroyViewModel();
                 ViewModel = null;
-            } 
-            
+            }
+
             ViewModel = viewModel;
             OnSetup(viewModel);
         }
