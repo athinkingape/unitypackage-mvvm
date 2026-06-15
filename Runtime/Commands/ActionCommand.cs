@@ -12,4 +12,16 @@ namespace MVVM.Commands {
             _executeAction?.Invoke();
         }
     }
+
+    public class ActionCommand<T> : ICommand<T> {
+        private readonly Action<T> _executeAction;
+
+        public ActionCommand(Action<T> executeAction) {
+            _executeAction = executeAction;
+        }
+        
+        public void Execute(T parameter) {
+            _executeAction?.Invoke(parameter);
+        }
+    }
 }
