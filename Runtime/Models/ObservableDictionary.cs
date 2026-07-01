@@ -57,9 +57,13 @@ namespace MVVM.Models
             
             NotifyObservers(this);
         }
+
+        public new void ClearObservers() {
+            _observers.Clear();
+            base.ClearObservers();
+        }
         
         public void Clear() {
-            _observers.Clear();
             _dict.Clear();
             _values.Setup(Array.Empty<TValue>());
             
