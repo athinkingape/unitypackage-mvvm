@@ -2,41 +2,19 @@ using System;
 
 namespace MVVM.Bindings.Base
 {
-    public class ObservableBinding : IDestroyableBinding
+    public class ObservableBinding : LifecycleObservableBinding
     {
-        private readonly Models.IObservable _observable;
-        private readonly Action _onUpdate;
-        
-        public ObservableBinding(Models.IObservable observable, Action onUpdate)
+        public ObservableBinding(Models.IObservable observable, Action onUpdate) : base(observable, onUpdate)
         {
-            _observable = observable;
-            _onUpdate = onUpdate;
-            
-            observable.Observe(onUpdate);
-        }
-
-        public void OnDestroy()
-        {
-            _observable.RemoveObservation(_onUpdate);
+            OnEnable();
         }
     }
-    
-    public class ObservableBinding<T> : IDestroyableBinding
-    {
-        private readonly Models.IObservable<T> _observable;
-        private readonly Action<T> _onUpdate;
-        
-        public ObservableBinding(Models.IObservable<T> observable, Action<T> onUpdate)
-        {
-            _observable = observable;
-            _onUpdate = onUpdate;
-            
-            observable.Observe(onUpdate);
-        }
 
-        public void OnDestroy()
+    public class ObservableBinding<T> : LifecycleObservableBinding<T>
+    {
+        public ObservableBinding(Models.IObservable<T> observable, Action<T> onUpdate) : base(observable, onUpdate)
         {
-            _observable.RemoveObservation(_onUpdate);
+            OnEnable();
         }
     }
 }

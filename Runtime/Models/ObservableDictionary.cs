@@ -5,11 +5,12 @@ using System.Linq;
 
 namespace MVVM.Models
 {
-    public class ObservableDictionary<TKey, TValue> : BaseObservable<ObservableDictionary<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>
+    public class ObservableDictionary<TKey, TValue> : BaseObservable<ObservableDictionary<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IKeyObservable<TKey, TValue>
     {
         public IEnumerable<TKey> Keys => _dict.Keys;
         public IObservableValue<IEnumerable<TValue>> Values => _values;
         public int Count => _dict.Count;
+        public int KeyObserverCount => _observers.Sum(observer => observer.Value.Count);
         
         private Dictionary<TKey, TValue> _dict = new();
         private Dictionary<TKey, HashSet<Action<TKey, TValue>>> _observers = new();

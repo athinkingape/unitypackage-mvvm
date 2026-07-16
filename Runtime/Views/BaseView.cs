@@ -23,6 +23,12 @@ namespace MVVM.Views
             }
 
             ViewModel = viewModel;
+
+            if (viewModel != null && isActiveAndEnabled)
+            {
+                viewModel.OnEnable();
+            }
+
             OnSetup(viewModel);
         }
 
@@ -35,8 +41,8 @@ namespace MVVM.Views
 
         protected void OnEnable()
         {
-            _bindings.ForEach(b => b.OnEnable());
             ViewModel?.OnEnable();
+            _bindings.ForEach(b => b.OnEnable());
             OnEnableImpl();
         }
 
