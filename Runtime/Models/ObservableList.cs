@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace MVVM.Models {
     public interface IObservableList<T> : IObservable<IObservableList<T>>, IEnumerable<T> {
+        int Count { get; }
         T this[int index] { get; }
     }
     
@@ -31,6 +32,22 @@ namespace MVVM.Models {
 
         public void AddRange(IEnumerable<T> range, bool notify = true) {
             _values.AddRange(range);
+
+            if (notify) {
+                NotifyObservers(this);
+            }
+        }
+
+        public void Remove(T value, bool notify = true) {
+            _values.Remove(value);
+
+            if (notify) {
+                NotifyObservers(this);
+            }
+        }
+
+        public void RemoveAt(int index, bool notify = true) {
+            _values.RemoveAt(index);
 
             if (notify) {
                 NotifyObservers(this);
