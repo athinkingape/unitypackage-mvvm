@@ -120,9 +120,12 @@ namespace MVVM.Models
         
         private void NotifyObservers(HashSet<Action<TKey, TValue>> observers, TKey key, TValue value)
         {
-            foreach (var observer in observers)
+            foreach (var observer in observers.ToArray())
             {
-                observer.Invoke(key, value);
+                if (observers.Contains(observer))
+                {
+                    observer.Invoke(key, value);
+                }
             }
         }
     }
